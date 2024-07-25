@@ -121,7 +121,7 @@ Responses:
 404 Not Found: Marca não encontrada.
 
 <p> o que foi usado, dentre as funcionalidade implementadas estão endpoints para exportar as informações de produto para excel e para pdf, achei que seria interessante, já que pode ser impresso para melhorar na tomada de decisão sobre quais produtos ativar e desativar, devido ao tempo curto fiz somente para os produtos mas deixei de uma forma de facil mudança e replicação para categoria e marcas caso necessário, também utilizei o swagger para documentar a api e facilitar os testes da api, foram implementados testes unitario para prevenção de erros.
-acima foi detalhado os endpoints implementado <p>
+acima foi detalhado os endpoints implementado, utilizado também o flyway uma biblioteca para fascilitar o verssioonamento do banco de dados. <p>
 
-Boa sorte!
+
 
