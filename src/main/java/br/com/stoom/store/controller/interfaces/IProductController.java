@@ -37,7 +37,7 @@ public interface IProductController {
             responseCode = "200",
             description = "HTTP Status 200 SUCCESS"
     )
-    @GetMapping("/products/active")
+    @GetMapping("/active")
     ResponseEntity<Page<ProductDto>> getAllActiveProducts(@RequestParam boolean status);
 
     @Operation(
@@ -48,7 +48,7 @@ public interface IProductController {
             responseCode = "200",
             description = "HTTP Status 200 SUCCESS"
     )
-    @GetMapping("/products/brand/{brandName}")
+    @GetMapping("brand/{brandName}")
     ResponseEntity<Page<ProductDto>> getProductsByBrand(@PathVariable String brandName);
 
     @Operation(
@@ -59,7 +59,7 @@ public interface IProductController {
             @ApiResponse(responseCode = "200", description = "HTTP Status 200 SUCCESS"),
             @ApiResponse(responseCode = "404", description = "HTTP Status 404 NOT FOUND - Category not found")
     })
-    @GetMapping("/products/category/{categoryName}")
+    @GetMapping("category/{categoryName}")
     ResponseEntity<Page<ProductDto>> getProductsByCategory(@PathVariable String categoryName);
 
     @Operation(
@@ -70,7 +70,7 @@ public interface IProductController {
             @ApiResponse(responseCode = "201", description = "HTTP Status 201 CREATED - Product created successfully"),
             @ApiResponse(responseCode = "400", description = "HTTP Status 400 BAD REQUEST - Invalid product details")
     })
-    @PostMapping("/products")
+    @PostMapping
     ResponseEntity<ProductDto> createProduct(@Valid @RequestBody ProductDto productDto, UriComponentsBuilder uriBuilder);
 
     @Operation(
@@ -81,7 +81,7 @@ public interface IProductController {
             @ApiResponse(responseCode = "204", description = "HTTP Status 204 NO CONTENT - Product activated successfully"),
             @ApiResponse(responseCode = "404", description = "HTTP Status 404 NOT FOUND - Product not found")
     })
-    @PutMapping("/products/{productId}/activate")
+    @PutMapping("/activate/{productId}/")
     ResponseEntity<Void> activateProduct(@PathVariable Long productId);
 
     @Operation(
@@ -92,7 +92,7 @@ public interface IProductController {
             @ApiResponse(responseCode = "204", description = "HTTP Status 204 NO CONTENT - Product deactivated successfully"),
             @ApiResponse(responseCode = "404", description = "HTTP Status 404 NOT FOUND - Product not found")
     })
-    @PutMapping("/products/{productId}/deactivate")
+    @PutMapping("/deactivate/{productId}")
     ResponseEntity<Void> deactivateProduct(@PathVariable Long productId);
 
     @Operation(
@@ -103,7 +103,7 @@ public interface IProductController {
             @ApiResponse(responseCode = "200", description = "HTTP Status 200 SUCCESS - Products exported successfully"),
             @ApiResponse(responseCode = "500", description = "HTTP Status 500 INTERNAL SERVER ERROR - Error occurred while exporting products")
     })
-    @GetMapping("/products/export/excel")
+    @GetMapping("/export/excel")
     void exportProductsToExcel(@RequestParam boolean active, HttpServletResponse response) throws IOException;
 
     @Operation(
@@ -114,6 +114,6 @@ public interface IProductController {
             @ApiResponse(responseCode = "200", description = "HTTP Status 200 SUCCESS - Products exported successfully"),
             @ApiResponse(responseCode = "500", description = "HTTP Status 500 INTERNAL SERVER ERROR - Error occurred while exporting products")
     })
-    @GetMapping("/products/export/pdf")
+    @GetMapping("/export/pdf")
     void exportProductsToPDF(@RequestParam boolean active, HttpServletResponse response);
 }

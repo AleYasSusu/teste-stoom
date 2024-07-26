@@ -25,6 +25,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -86,32 +88,33 @@ public class ProductBO implements IProductBO {
 
     @Override
     public ProductDto createProduct(ProductDto productDto) {
-        List<CategoryDto> activeCategories = categoryService.getAllActiveCategories();
+        Set<Long> activeCategoryIds = categoryService.getAllActiveCategories()
+                .stream()
+                .map(CategoryDto::getId)
+                .collect(Collectors.toSet());
 
-        List<BrandDto> activeBrands = brandService.getAllActiveBrand();
+        Set<Long> activeBrandIds = brandService.getAllActiveBrand()
+                .stream()
+                .map(BrandDto::getId)
+                .collect(Collectors.toSet());
 
-        Long categoryId = productDto.getCategoryId();
-        Long brandId = productDto.getBrandId();
-
-        boolean isCategoryValid = activeCategories.stream()
-                .anyMatch(category -> category.getId().equals(categoryId));
-
-        boolean isBrandValid = activeBrands.stream()
-                .anyMatch(brand -> brand.getId().equals(brandId));
-
-        if (!isCategoryValid) {
-            throw new CustomException("category-3", HttpStatus.BAD_REQUEST);
-        }
-
-        if (!isBrandValid) {
-            throw new CustomException("brand-3", HttpStatus.BAD_REQUEST);
-        }
+        validateCategoryAndBrand(productDto.getCategoryId(), productDto.getBrandId(), activeCategoryIds, activeBrandIds);
 
         Product product = modelMapper.map(productDto, Product.class);
         product.setActive(Boolean.TRUE);
 
         productRepository.save(product);
         return modelMapper.map(product, ProductDto.class);
+    }
+
+    private void validateCategoryAndBrand(Long categoryId, Long brandId, Set<Long> activeCategoryIds, Set<Long> activeBrandIds) {
+        if (!activeCategoryIds.contains(categoryId)) {
+            throw new CustomException("category-3", HttpStatus.BAD_REQUEST);
+        }
+
+        if (!activeBrandIds.contains(brandId)) {
+            throw new CustomException("brand-3", HttpStatus.BAD_REQUEST);
+        }
     }
 
 

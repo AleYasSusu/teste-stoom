@@ -19,7 +19,7 @@ public interface ICategoryController {
             @ApiResponse(responseCode = "204", description = "HTTP Status 204 NO CONTENT - Category activated successfully"),
             @ApiResponse(responseCode = "404", description = "HTTP Status 404 NOT FOUND - Category not found")
     })
-    @PatchMapping("/categories/{categoryId}/activate")
+    @PatchMapping("/{categoryId}/activate")
     ResponseEntity<Void> activateCategory(@PathVariable Long categoryId);
 
     @Operation(
@@ -30,6 +30,6 @@ public interface ICategoryController {
             @ApiResponse(responseCode = "204", description = "HTTP Status 204 NO CONTENT - Category deactivated successfully"),
             @ApiResponse(responseCode = "404", description = "HTTP Status 404 NOT FOUND - Category not found")
     })
-    @PatchMapping("/categories/{categoryId}/deactivate")
+    @PatchMapping("/{categoryId}/deactivate")
     ResponseEntity<Void> deactivateCategory(@PathVariable Long categoryId);
 }
